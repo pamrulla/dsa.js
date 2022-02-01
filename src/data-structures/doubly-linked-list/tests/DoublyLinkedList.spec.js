@@ -60,7 +60,6 @@ describe('DoublyLinkedList', () => {
     expect(linkedList.head.toString()).toBe('1');
     expect(linkedList.tail.toString()).toBe('5');
     
-    console.log(linkedList.toString());
     const deletedNode = linkedList.delete(3);
     expect(deletedNode.value).toBe(3);
     expect(linkedList.tail.previous.previous.value).toBe(2);

@@ -44,14 +44,12 @@ export default class DoublyLinkedList {
         if(!this.head) {
             return null;
         }
-        console.log('$$$');
 
         let deletedNode = null;
         let currentNode = this.head;
 
         while(currentNode) {
             if(currentNode.value === value) {
-                console.log('#');
                 deletedNode = currentNode;
 
                 if(deletedNode === this.head) {
@@ -67,7 +65,6 @@ export default class DoublyLinkedList {
                     this.tail = deletedNode.previous;
                     this.tail.next = null;
                 } else {
-                    console.log('##');
                     const prev = deletedNode.previous;
                     const next = deletedNode.next;
 
@@ -75,7 +72,6 @@ export default class DoublyLinkedList {
                     next.previous = prev;
                 }
             }
-            console.log('###');
             currentNode = currentNode.next;
         }
         return deletedNode;
