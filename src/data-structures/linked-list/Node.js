@@ -8,8 +8,8 @@ export default class Node {
      * 
      * @returns {string}
      */
-    toString() {
-        return `${this.value}`;
+    toString(callback) {
+        return callback ? callback(this.value) : `${this.value}`;
     }
 }
 

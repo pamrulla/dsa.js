@@ -1,12 +1,15 @@
 import Node from './Node';
+import Comparator from "../utils/comparator/Comparator";
 
 export default class LinkedList {
-    constructor() {
+    constructor(comparator) {
         /** @var Node */
         this.head = null;
 
         /** @var Node */
         this.tail = null;
+
+        this.compare = new Comparator(comparator);
     }
 
     /**
@@ -104,7 +107,7 @@ export default class LinkedList {
 
         let deleteNode = null;
 
-        while (this.head && this.head.value === value) {
+        while (this.head && this.compare.equal(this.head.value, value)) {
             deleteNode = this.head;
             this.head = this.head.next;
         }
@@ -113,7 +116,7 @@ export default class LinkedList {
 
         if(currentNode !== null) {
             while (currentNode.next) {
-                if(currentNode.next.value === value) {
+                if(this.compare.equal(currentNode.next.value, value)) {
                     deleteNode = currentNode.next;
                     currentNode.next = currentNode.next.next;
                 } else {
@@ -122,7 +125,7 @@ export default class LinkedList {
             }
         }
 
-        if(this.tail.value === value) {
+        if(this.compare.equal(this.tail.value, value)) {
             this.tail = currentNode;
         }
 
@@ -134,7 +137,7 @@ export default class LinkedList {
      * @param {*} value 
      * @returns {Node}
      */
-    find(value) {
+    find({value = undefined, callback = undefined}) {
         if(!this.head) {
             return null;
         }
@@ -142,7 +145,12 @@ export default class LinkedList {
         let currentNode = this.head;
 
         while (currentNode) {
-            if(value === currentNode.value) {
+
+            if(callback && callback(currentNode.value)) {
+                return currentNode;
+            }
+
+            if(value !== undefined && this.compare.equal(currentNode.value, value)) {
                 return currentNode
             }
             currentNode = currentNode.next;
@@ -233,8 +241,8 @@ export default class LinkedList {
      * 
      * @returns {string}
      */
-    toString() {
-        return this.toArray().map(n => n.toString()).toString();
+    toString(callback) {
+        return this.toArray().map(n => n.toString(callback)).toString();
     }
 
     /**
